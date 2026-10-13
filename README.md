@@ -22,34 +22,48 @@ This project applies Principal Component Analysis (PCA) to the Superstore Datase
 README.md 
 project-report.pdf
 r-analysis-results.txt
-superstore-dataset-dashboard.xlsx
 scree-plot.png
-dashboard.png
 ```
 
-## Results & Visualization
+## Visualizations & Analysis
 
-### 1. PCA Scree Plot - Eigenvalue Analysis
-
-<p align="center">
-  <img src="scree-plot.png" width="700">
-</p>
-
-*Scree plot showing eigenvalues. Only PC1 and PC2 with Eigenvalue > 1 are retained. Total variance retained = 66.22%*
-
-### 2. Sales Monitoring Dashboard (Excel)
+### 1. Scree Plot - Eigenvalue Analysis
 
 <p align="center">
-  <img src="dashboard.png" width="700">
+  <img src="scree-plot.png" width="600" />
 </p>
 
-*Interactive Excel dashboard built from Superstore dataset to monitor sales, profit and category performance. Complements PCA by providing daily operational monitoring.*
+**Explanation:** The scree plot displays eigenvalues: PC1=1.589, PC2=1.058, PC3=0.881, PC4=0.469. While Kaiser criterion (eigenvalue >1) suggests 2 components, the cumulative variance criterion (>80%) is adopted for business decision-making. Two components retain only 66.22%, which is below the 80% industry standard. Retaining three components achieves 88.25%, providing a more comprehensive representation with minimal information loss.
 
-Download: [superstore-dataset-dashboard.xlsx](superstore-dataset-dashboard.xlsx)
+### 2. Cumulative Variance Analysis
 
-## Key Findings
-- **Variance Explained:** PC1 = 39.75% (Eigenvalue 1.590), PC2 = 26.47% (Eigenvalue 1.059). Cumulative variance for PC1 + PC2 = 66.22%. PC3 = 22.03%, PC4 = 11.75%.
-- **Component Selection:** Based on Kaiser Criterion (Eigenvalue > 1), only PC1 and PC2 are retained, reducing 4 variables to 2 components.
-- **PC1 - Business Performance Component:** High loadings for Profit (0.655) and Sales (0.643), correlation with Sales r = 0.81. Represents revenue generation.
-- **PC2 - Discount and Purchasing Behavior Component:** High loadings for Discount (0.719) and Quantity (0.631), correlation with Sales r = 0.22. Represents promotion strategy where higher discounts lead to higher quantity purchased.
-- **Business Implication:** Managers can focus on 2 components instead of 4 variables to simplify performance analysis while retaining 66.22% of information.
+| Component | Eigenvalue | Variance (%) | Cumulative (%) | Decision |
+| :--- | :--- | :--- | :--- | :--- |
+| PC1 | 1.589 | 39.75% | 39.75% | Retain |
+| PC2 | 1.058 | 26.47% | 66.22% | Retain |
+| PC3 | 0.881 | 22.03% | **88.25%** | **Retain** |
+| PC4 | 0.469 | 11.75% | 100% | Drop |
+
+**Explanation:** Three principal components are retained to achieve 88.25% cumulative variance, exceeding the 80% threshold commonly used in retail analytics. This reduces four original variables into three components while preserving majority of information with only 11.75% loss.
+
+### 3. Component Loadings
+
+| Variable | PC1 (39.75%) | PC2 (26.47%) | PC3 (22.03%) |
+| :--- | :--- | :--- | :--- |
+| Sales | **0.643** | 0.218 | 0.306 |
+| Quantity | 0.289 | **0.631** | **-0.701** |
+| Discount | -0.270 | **0.719** | **0.592** |
+| Profit | **0.655** | -0.195 | 0.253 |
+
+**Interpretation:**
+- **PC1 - Revenue Performance:** Driven by Sales (0.643) and Profit (0.655). Represents core revenue generation.
+- **PC2 - Promotional Bulk:** Driven by Discount (0.719) and Quantity (0.631). Represents volume driven by promotions.
+- **PC3 - Margin Trade-off:** High Discount (0.592) with negative Quantity (-0.701). Captures the risk where excessive discounting fails to increase quantity and erodes profitability.
+
+### 4. Business Insight
+
+By retaining 88.25% variance with 3 components instead of 66.22% with 2:
+
+- **Simplified Monitoring:** Management can track 3 strategic dimensions (Revenue, Bulk Promo, Margin Risk) instead of 4 raw metrics.
+- **Promotional Strategy:** Discount increases quantity (PC2), but PC3 reveals a threshold where further discounting reduces quantity, indicating potential quality perception issues or margin erosion.
+- **Optimized Decision:** Balance discount levels to maximize PC1 and PC2 while minimizing negative impact from PC3.
