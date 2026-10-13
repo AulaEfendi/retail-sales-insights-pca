@@ -1,0 +1,101 @@
+> superstore <- read_excel("C:\\Users\\aisya\\OneDrive\\Desktop\\Superstore Dataset.xlsx")
+
+-
+                                                                        
+
+/
+                                                                        
+
+-
+\
+                                                                        
+> 
+> sp <- superstore[,c("Sales",
++                     "Quantity",
++                     "Discount",
++                     "Profit")]
+> sp
+# A tibble: 9,994 × 4
+    Sales Quantity Discount  Profit
+    <dbl>    <dbl>    <dbl>   <dbl>
+ 1 262.          2     0      41.9 
+ 2 732.          3     0     220.  
+ 3  14.6         2     0       6.87
+ 4 958.          5     0.45 -383.  
+ 5  22.4         2     0.2     2.52
+ 6  48.9         7     0      14.2 
+ 7   7.28        4     0       1.97
+ 8 907.          6     0.2    90.7 
+ 9  18.5         3     0.2     5.78
+10 115.          5     0      34.5 
+# ℹ 9,984 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> sp.pca <- princomp(sp,
++                    scores = TRUE,
++                    cor = TRUE)
+> sp.pca
+Call:
+princomp(x = sp, cor = TRUE, scores = TRUE)
+
+Standard deviations:
+   Comp.1    Comp.2    Comp.3    Comp.4 
+1.2609388 1.0289324 0.9388057 0.6855475 
+
+ 4  variables and  9994 observations.
+> summary(sp.pca)
+Importance of components:
+                          Comp.1    Comp.2    Comp.3    Comp.4
+Standard deviation     1.2609388 1.0289324 0.9388057 0.6855475
+Proportion of Variance 0.3974916 0.2646755 0.2203391 0.1174938
+Cumulative Proportion  0.3974916 0.6621671 0.8825062 1.0000000
+> eiv <- sp.pca$sdev^2
+> eiv
+   Comp.1    Comp.2    Comp.3    Comp.4 
+1.5899665 1.0587019 0.8813562 0.4699753 
+> cumsum(eiv)/sum(eiv)
+   Comp.1    Comp.2    Comp.3    Comp.4 
+0.3974916 0.6621671 0.8825062 1.0000000 
+> screeplot(sp.pca,
++           type="lines")
+> scores <- sp.pca$scores
+> head(scores)
+          Comp.1     Comp.2      Comp.3      Comp.4
+[1,]  0.04266283 -1.0509006  0.14636719  0.31246395
+[2,]  1.15472787 -0.7511649  0.25353205  0.22332330
+[3,] -0.31074084 -1.1082029 -0.01276781  0.15001686
+[4,] -0.62842772  1.9638195  0.37263360  1.54375716
+[5,] -0.57686743 -0.4057112  0.55983264 -0.06649694
+[6,]  0.39365071  0.3152667 -1.56449887 -0.20149646
+> loadings <- sp.pca$loadings
+> loadings
+
+Loadings:
+         Comp.1 Comp.2 Comp.3 Comp.4
+Sales     0.643  0.218  0.306  0.667
+Quantity  0.289  0.631 -0.701 -0.163
+Discount -0.270  0.719  0.592 -0.245
+Profit    0.655 -0.195  0.253 -0.684
+
+               Comp.1 Comp.2 Comp.3 Comp.4
+SS loadings      1.00   1.00   1.00   1.00
+Proportion Var   0.25   0.25   0.25   0.25
+Cumulative Var   0.25   0.50   0.75   1.00
+> loadings[,1:2]
+             Comp.1     Comp.2
+Sales     0.6433996  0.2180347
+Quantity  0.2886365  0.6308219
+Discount -0.2703763  0.7185699
+Profit    0.6554560 -0.1954020
+> plot(scores[,1],
++      scores[,2],
++      xlab="PC1",
++      ylab="PC2",
++      main="PCA Score Plot")
+> round(cor(cbind(sp$Sales,
++                 scores[,1:2])),
++       digits=2)
+            Comp.1 Comp.2
+       1.00   0.81   0.22
+Comp.1 0.81   1.00   0.00
+Comp.2 0.22   0.00   1.00
+> 
