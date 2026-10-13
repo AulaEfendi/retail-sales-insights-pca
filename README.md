@@ -23,7 +23,29 @@ README.md
 project-report.pdf
 r-analysis-results.txt
 superstore-dataset-dashboard.xlsx
+scree-plot.png
+dashboard.png
 ```
+
+## Results & Visualization
+
+### 1. PCA Scree Plot - Eigenvalue Analysis
+
+<p align="center">
+  <img src="scree-plot.png" width="700">
+</p>
+
+*Scree plot showing eigenvalues. Only PC1 and PC2 with Eigenvalue > 1 are retained. Total variance retained = 66.22%*
+
+### 2. Sales Monitoring Dashboard (Excel)
+
+<p align="center">
+  <img src="dashboard.png" width="700">
+</p>
+
+*Interactive Excel dashboard built from Superstore dataset to monitor sales, profit and category performance. Complements PCA by providing daily operational monitoring.*
+
+Download: [superstore-dataset-dashboard.xlsx](superstore-dataset-dashboard.xlsx)
 
 ## Key Findings
 - **Variance Explained:** PC1 = 39.75% (Eigenvalue 1.590), PC2 = 26.47% (Eigenvalue 1.059). Cumulative variance for PC1 + PC2 = 66.22%. PC3 = 22.03%, PC4 = 11.75%.
